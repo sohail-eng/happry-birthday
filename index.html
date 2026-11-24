@@ -15,7 +15,7 @@
 html,body{height:100%}
 body{background:radial-gradient(circle at 15% 20%,rgba(255,92,150,.55),transparent 45%),radial-gradient(circle at 85% 30%,rgba(130,90,255,.55),transparent 45%),radial-gradient(ellipse at 50% 115%,#d6368a 0%,#6a2290 38%,#1c0b3d 100%) fixed;color:var(--cream);font-family:'Cormorant Garamond',Georgia,serif;overflow-x:hidden;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
 canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
-.stage{position:relative;z-index:2;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.4rem}
+.stage{position:relative;z-index:2;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.4rem 5rem}
 
 /* intro */
 #intro{transition:opacity .9s ease,transform .9s ease}
@@ -218,6 +218,29 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
       } else if (n.nodeType === 1) prep(n, out);
     });
   }
+  // silky scrolling: a per-frame glide toward a target, so it never jumps or restarts
+  var glideTo = null, gliding = false;
+  function maxY() { return Math.max(0, document.documentElement.scrollHeight - innerHeight); }
+  function glideStep() {
+    if (glideTo === null) { gliding = false; return; }
+    var y = window.scrollY, d = Math.min(glideTo, maxY()) - y;
+    if (Math.abs(d) < 0.5) { glideTo = null; gliding = false; return; }
+    var step = d * 0.045;                                   // ease: fast when far, gentle when near
+    if (Math.abs(step) < 0.8) step = (d > 0 ? 0.8 : -0.8);   // keep a steady minimum glide
+    if (Math.abs(step) > Math.abs(d)) step = d;
+    window.scrollTo(0, y + step);
+    requestAnimationFrame(glideStep);
+  }
+  function glide(y) {
+    if (calm) { window.scrollTo(0, y); return; }
+    glideTo = y;
+    if (!gliding) { gliding = true; requestAnimationFrame(glideStep); }
+  }
+  // keep the letter being written comfortably in the lower-middle of the screen
+  function keepVisible(el) {
+    var bottom = el.getBoundingClientRect().bottom;
+    if (bottom > innerHeight * 0.72) glide(window.scrollY + bottom - innerHeight * 0.55);
+  }
   var SPEED = 65;   // milliseconds per letter: raise for slower, lower for faster
   function typeAll(chars, done) {
     var i = 0, prev = null;
@@ -225,7 +248,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
       if (prev) prev.classList.remove('new');
       if (i >= chars.length) { done(); return; }
       var c = chars[i++], t = c.textContent, d = SPEED;
-      c.classList.add('on', 'new'); prev = c;
+      c.classList.add('on', 'new'); prev = c; keepVisible(c);
       if (t === ',' || t === ':') d += 300;
       else if (/[.!?]/.test(t)) d += 600;
       if (c.eol) d += 1100;        // a breath between paragraphs
@@ -251,7 +274,10 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
       });
       // start after the name has finished writing itself
       setTimeout(function () {
-        typeAll(chars, function () { document.getElementById('makeWish').classList.add('in'); });
+        typeAll(chars, function () {
+          var b = document.getElementById('makeWish'); b.classList.add('in');
+          setTimeout(function () { var r = b.getBoundingClientRect(); glide(window.scrollY + r.top + r.height / 2 - innerHeight / 2); }, 300);
+        });
       }, 1600 + name.length * 90);
     }, 500);
   });
