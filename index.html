@@ -8,40 +8,40 @@
 <meta property="og:description" content="Tap to open your wish.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:wght@600;700&family=Lora:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{--night:#14092a;--plum:#2b1250;--rose:#ff7a9c;--gold:#ffd98a;--cream:#fff1e3}
 *{box-sizing:border-box;margin:0}
 html,body{height:100%}
-body{background:radial-gradient(ellipse at 50% 120%,#5a1f6b 0%,var(--plum) 40%,var(--night) 100%);color:var(--cream);font-family:'Cormorant Garamond',Georgia,serif;overflow-x:hidden;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+body{background:radial-gradient(circle at 15% 20%,rgba(255,92,150,.55),transparent 45%),radial-gradient(circle at 85% 30%,rgba(130,90,255,.55),transparent 45%),radial-gradient(ellipse at 50% 115%,#d6368a 0%,#6a2290 38%,#1c0b3d 100%) fixed;color:var(--cream);font-family:'Cormorant Garamond',Georgia,serif;overflow-x:hidden;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
 canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
 .stage{position:relative;z-index:2;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.4rem}
 
 /* intro */
 #intro{transition:opacity .9s ease,transform .9s ease}
 #intro.gone{opacity:0;transform:scale(1.08);pointer-events:none;position:absolute}
-#intro p{font-size:1.35rem;font-style:italic;color:var(--gold);margin-bottom:1.6rem;max-width:20ch}
+#intro p{font:600 1.5rem/1.4 'Lora',Georgia,serif;color:#ffe3a3;margin-bottom:1.6rem;max-width:20ch;text-shadow:0 2px 10px rgba(0,0,0,.7)}
 .seal{width:132px;height:132px;border-radius:50%;border:0;cursor:pointer;color:var(--cream);font:400 2.6rem 'Pinyon Script',cursive;background:radial-gradient(circle at 35% 30%,#ff9db6,#d6285f 55%,#8c1237);box-shadow:0 0 0 8px rgba(255,122,156,.18),0 14px 50px rgba(255,60,120,.55);animation:beat 2.2s ease-in-out infinite}
 .seal:focus-visible{outline:3px solid var(--gold);outline-offset:8px}
-.hint{margin-top:1.8rem;font-size:1rem;opacity:.7}
+.hint{margin-top:1.8rem;font:500 1.05rem 'Lora',serif;opacity:.9}
 @keyframes beat{50%{transform:scale(1.07);box-shadow:0 0 0 18px rgba(255,122,156,.08),0 14px 70px rgba(255,60,120,.75)}}
 
 /* wish */
-#wish{display:none;max-width:34rem}
+#wish{display:none;max-width:36rem;padding:2.2rem 1.6rem 2.4rem;border-radius:30px;background:rgba(12,5,28,.5);border:1px solid rgba(255,217,138,.3);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);box-shadow:0 20px 60px rgba(0,0,0,.45)}
 #wish.show{display:block}
-.hb{font-size:clamp(1.3rem,4.5vw,1.9rem);letter-spacing:.35em;text-indent:.35em;color:var(--gold);font-weight:600}
+.hb{font:700 clamp(1.3rem,4.5vw,1.9rem) 'Cormorant Garamond',serif;letter-spacing:.35em;text-indent:.35em;color:#ffe3a3;text-shadow:0 2px 10px rgba(0,0,0,.6)}
 .name{font:400 clamp(3.6rem,17vw,8.5rem)/1.05 'Pinyon Script',cursive;margin:.15em 0 .25em;padding:0 .1em;color:#fff;overflow-wrap:anywhere;text-shadow:0 0 18px rgba(255,122,156,.9),0 0 60px rgba(255,122,156,.5)}
 .name span{display:inline-block;opacity:0;transform:translateY(24px) rotate(-4deg);filter:blur(8px);animation:ink .9s cubic-bezier(.2,.7,.2,1) forwards}
 @keyframes ink{to{opacity:1;transform:none;filter:none}}
 .rule{width:min(240px,60%);height:1px;margin:1rem auto 1.6rem;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.line{font-size:clamp(1.2rem,4.2vw,1.55rem);line-height:1.55;margin-bottom:1.1rem;opacity:.95}
+.line{font:500 clamp(1.25rem,4.4vw,1.6rem)/1.7 'Lora',Georgia,serif;color:#fff;margin-bottom:1.2rem;text-shadow:0 2px 10px rgba(5,2,15,.9)}
 .w{display:inline-block;white-space:nowrap}
 .c{opacity:0;transition:opacity .5s ease,color .9s ease,text-shadow .9s ease}
 .c.on{opacity:1}
-.c.new{color:var(--gold);text-shadow:0 0 14px var(--gold)}
-.line em{color:var(--rose)}
-.from{font:400 2.2rem 'Pinyon Script',cursive;color:var(--gold);margin-top:1.4rem}
-.btn{margin-top:2rem;padding:.8rem 1.8rem;border-radius:99px;border:1px solid var(--gold);background:rgba(255,217,138,.08);color:var(--gold);font:600 1.15rem 'Cormorant Garamond',serif;cursor:pointer;opacity:0;transition:opacity 1.2s,background .3s}
+.c.new{color:#ffe3a3;text-shadow:0 0 12px rgba(255,217,138,.9)}
+.line em{color:#ffc2d4;font-style:normal;font-weight:600}
+.from{font:400 2.6rem 'Pinyon Script',cursive;color:#ffe3a3;margin-top:1.4rem;text-shadow:0 2px 10px rgba(0,0,0,.7)}
+.btn{margin-top:2rem;padding:.85rem 1.9rem;border-radius:99px;border:2px solid var(--gold);background:rgba(255,217,138,.15);color:#ffe3a3;font:600 1.1rem 'Lora',serif;cursor:pointer;opacity:0;transition:opacity 1.2s,background .3s}
 .btn.in{opacity:1}
 .btn:hover{background:rgba(255,217,138,.2)}
 .btn:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
@@ -114,8 +114,8 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
     ctx.fill(); ctx.restore();
   }
   function spawnRise() {
-    rise.push({ x: Math.random() * W, y: H + 20, s: 0.8 + Math.random() * 1.8, v: 0.4 + Math.random() * 0.9,
-      w: Math.random() * 6, c: colors[(Math.random() * 3) | 0], a: 0.25 + Math.random() * 0.5, h: Math.random() < 0.55 });
+    rise.push({ x: Math.random() * W, y: H + 20, s: 1.2 + Math.random() * 2.6, v: 0.5 + Math.random() * 1.1,
+      w: Math.random() * 6, c: colors[(Math.random() * 3) | 0], a: 0.5 + Math.random() * 0.5, h: Math.random() < 0.55 });
   }
   function burst(cx, cy, n) {
     for (var i = 0; i < n; i++) {
@@ -126,7 +126,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
   }
   function frame() {
     ctx.clearRect(0, 0, W, H);
-    if (!calm && rise.length < 40 && Math.random() < 0.15) spawnRise();
+    if (!calm && rise.length < 90 && Math.random() < 0.3) spawnRise();
     rise = rise.filter(function (p) { return p.y > -30; });
     rise.forEach(function (p) {
       p.y -= p.v; p.w += 0.02; var x = p.x + Math.sin(p.w) * 18;
@@ -142,7 +142,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
     ctx.globalAlpha = 1;
     requestAnimationFrame(frame);
   }
-  for (var i = 0; i < 14; i++) { spawnRise(); rise[i].y = Math.random() * H; }
+  for (var i = 0; i < 45; i++) { spawnRise(); rise[i].y = Math.random() * H; }
   frame();
 
   // ---- music: a soft music-box "Happy Birthday", synthesized live (no audio file needed) ----
